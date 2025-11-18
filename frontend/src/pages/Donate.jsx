@@ -2,6 +2,37 @@
 import React, { useState } from 'react';
 import { Heart, CreditCard, Shield, Check, Gift, Users, BookOpen, Home, ArrowRight, Lock } from 'lucide-react';
 
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+
+const DonatePageIntegrated = () => {
+  const [donationData, setDonationData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    amount: 100,
+    donationType: 'one-time',
+    program: 'where-needed',
+    anonymous: false,
+  });
+
+  return (
+    <div className="min-h-screen bg-gray-50 py-20">
+      <div className="max-w-4xl mx-auto px-4">
+        <h1 className="text-4xl font-bold text-center mb-12">Make a Donation</h1>
+        
+        <Elements stripe={stripePromise}>
+          <CheckoutForm 
+            donationData={donationData}
+            setDonationData={setDonationData}
+          />
+        </Elements>
+      </div>
+    </div>
+  );
+};
+
 const DonatePage = () => {
   const [donationType, setDonationType] = useState('one-time');
   const [selectedAmount, setSelectedAmount] = useState(100);
