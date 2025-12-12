@@ -1,6 +1,5 @@
 // client/src/components/donation/CheckoutForm.jsx
 import React, { useState } from 'react';
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useDonation } from '../../hooks/useDonation';
 import { Heart, Lock, CreditCard } from 'lucide-react';
 import wonderfulService from '../../services/wonderfulService';
