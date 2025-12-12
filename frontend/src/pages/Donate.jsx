@@ -1,5 +1,4 @@
 ﻿import { useState } from 'react';
-import { Heart } from 'lucide-react';
 import WonderfulCheckout from '../components/donation/WonderfulCheckout';
 
 const Donate = () => {
