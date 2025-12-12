@@ -1,152 +1,196 @@
-﻿import React, { useState } from 'react';
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
+﻿import { useState } from 'react';
+import { Heart } from 'lucide-react';
 import WonderfulCheckout from '../components/donation/WonderfulCheckout';
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
-
 const Donate = () => {
-  const [amount, setAmount] = useState(50);
+  const [selectedAmount, setSelectedAmount] = useState(25);
   const [customAmount, setCustomAmount] = useState('');
+  const [showCheckout, setShowCheckout] = useState(false);
 
-  const donationAmounts = [10, 25, 50, 100, 250, 500];
+  const predefinedAmounts = [10, 25, 50];
 
-  const handleAmountClick = (amt) => {
-    setAmount(amt);
+  const handleAmountSelect = (amount) => {
+    setSelectedAmount(amount);
     setCustomAmount('');
   };
 
   const handleCustomAmountChange = (e) => {
-    const value = e.target.value;
+    const value = e.target.value.replace(/[^0-9]/g, '');
     setCustomAmount(value);
-    if (value && !isNaN(value) && Number(value) > 0) {
-      setAmount(Number(value));
+    if (value) {
+      setSelectedAmount(parseInt(value));
     }
   };
 
+  const finalAmount = customAmount ? parseInt(customAmount) : selectedAmount;
+
+  if (showCheckout) {
+    return <WonderfulCheckout amount={finalAmount} onBack={() => setShowCheckout(false)} />;
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Make a Difference Today
-          </h1>
-          <p className="text-xl text-gray-600">
-            Your donation changes lives. 100% goes directly to helping children.
-          </p>
+    <div className="min-h-screen bg-white">
+      {/* Header */}
+      <div className="bg-blue-600 py-8">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <div className="inline-block bg-white rounded-full px-6 py-2">
+            <h1 className="text-2xl font-bold text-blue-600" style={{ fontFamily: 'cursive' }}>
+              wonderful
+            </h1>
+          </div>
         </div>
+      </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Amount Selection */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-2xl font-semibold mb-6">Choose Your Impact</h2>
-            
-            <div className="grid grid-cols-3 gap-4 mb-6">
-              {donationAmounts.map((amt) => (
-                <button
-                  key={amt}
-                  onClick={() => handleAmountClick(amt)}
-                  className={`py-4 px-4 rounded-lg font-semibold transition ${
-                    amount === amt && !customAmount
-                      ? 'bg-blue-600 text-white shadow-lg'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  ${amt}
-                </button>
-              ))}
-            </div>
+      {/* Main Content */}
+      <div className="max-w-4xl mx-auto px-4 py-12">
+        <div className="grid md:grid-cols-2 gap-12">
+          {/* Left Column - Charity Info */}
+          <div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Theo Trust</h2>
+            <p className="text-gray-600 mb-6">Charity Registration Number: 1069814</p>
 
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Or enter a custom amount
-              </label>
+            {/* Logo */}
+            <div className="mb-8 flex justify-center">
               <div className="relative">
-                <span className="absolute left-4 top-3 text-gray-500 text-lg">$</span>
-                <input
-                  type="number"
-                  value={customAmount}
-                  onChange={handleCustomAmountChange}
-                  className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg text-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="0"
-                  min="1"
+                <img 
+                  src="/theo-trust-logo.png" 
+                  alt="Theo Trust Logo" 
+                  className="w-64 h-64 object-contain"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'flex';
+                  }}
                 />
+                <div className="hidden w-64 h-64 bg-red-100 rounded-full items-center justify-center border-8 border-white shadow-lg">
+                  <div className="text-center">
+                    <div className="text-red-600 text-sm font-semibold mb-2">giving deprived children</div>
+                    <div className="bg-red-600 text-white px-6 py-3 rounded-full text-2xl font-bold mb-2">
+                      THEO<br/>TRUST
+                    </div>
+                    <div className="text-red-600 text-sm font-semibold">the chance to prosper</div>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="bg-blue-50 rounded-lg p-4 space-y-3">
-              <h3 className="font-semibold text-gray-900 mb-2">Your Impact:</h3>
-              {amount >= 10 && (
-                <div className="flex items-start gap-2">
-                  <span className="text-blue-600">✓</span>
-                  <p className="text-sm text-gray-700">
-                    Provide school supplies for a child
-                  </p>
-                </div>
-              )}
-              {amount >= 50 && (
-                <div className="flex items-start gap-2">
-                  <span className="text-blue-600">✓</span>
-                  <p className="text-sm text-gray-700">
-                    Support a child's education for one month
-                  </p>
-                </div>
-              )}
-              {amount >= 100 && (
-                <div className="flex items-start gap-2">
-                  <span className="text-blue-600">✓</span>
-                  <p className="text-sm text-gray-700">
-                    Provide meals and healthcare for a family
-                  </p>
-                </div>
-              )}
+            <div className="text-center mb-8">
+              <a href="https://www.theotrust.org" className="text-blue-600 hover:underline text-lg">
+                www.theotrust.org
+              </a>
+              <p className="text-sm text-gray-500 mt-1">Registered Charity No. 1069814</p>
+            </div>
+
+            {/* Info Box */}
+            <div className="bg-gray-50 rounded-lg p-6 mb-6">
+              <h3 className="font-bold text-gray-900 mb-4">Your donation</h3>
+              <p className="text-gray-700 mb-2">
+                Unlike other platforms, Wonderful <strong>does not</strong> charge charities platform fees, 
+                processing fees or Gift Aid fees, and <strong>will never</strong> ask donors for voluntary contributions.
+              </p>
             </div>
           </div>
 
-          {/* Checkout */}
-          <WonderfulCheckout amount={amount} />
+          {/* Right Column - Donation Form */}
+          <div>
+            <div className="mb-8">
+              <h3 className="text-xl font-semibold text-gray-900 mb-6">Select an amount to give</h3>
+              
+              {/* Amount Buttons */}
+              <div className="grid grid-cols-3 gap-4 mb-6">
+                {predefinedAmounts.map((amount) => (
+                  <button
+                    key={amount}
+                    onClick={() => handleAmountSelect(amount)}
+                    className={`py-4 px-6 rounded-full text-lg font-semibold transition ${
+                      selectedAmount === amount && !customAmount
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    £{amount}
+                  </button>
+                ))}
+              </div>
+
+              {/* Custom Amount */}
+              <div className="mb-8">
+                <label className="block text-gray-700 font-medium mb-3">
+                  Or enter a different amount
+                </label>
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-xl font-semibold bg-blue-600 px-3 py-2 rounded-l">
+                    £
+                  </span>
+                  <input
+                    type="text"
+                    value={customAmount}
+                    onChange={handleCustomAmountChange}
+                    className="w-full pl-16 pr-4 py-3 border-2 border-gray-300 rounded text-xl focus:outline-none focus:border-blue-600"
+                    placeholder="25"
+                  />
+                </div>
+              </div>
+
+              {/* Continue Button */}
+              <button
+                onClick={() => setShowCheckout(true)}
+                disabled={!finalAmount || finalAmount < 1}
+                className="w-full bg-blue-600 text-white py-4 rounded-full text-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+              >
+                Continue
+              </button>
+            </div>
+
+            {/* Gift Aid Info */}
+            <div className="bg-blue-50 rounded-lg p-6">
+              <div className="flex items-start gap-3 mb-4">
+                <div className="text-4xl font-bold text-blue-600" style={{ fontFamily: 'cursive' }}>
+                  giftaid it
+                </div>
+              </div>
+              <p className="text-sm text-gray-700 mb-2">
+                Add <strong>£{(finalAmount * 0.25).toFixed(2)}</strong> at no cost to you.
+              </p>
+              <details className="text-sm text-gray-700">
+                <summary className="cursor-pointer font-medium text-blue-600 hover:underline">
+                  Learn more about Gift Aid
+                </summary>
+                <div className="mt-3 space-y-2">
+                  <p>
+                    I am a UK taxpayer and I want to Gift Aid this donation and any donations I make in 
+                    the future or have made in the past 4 years to Theo Trust.
+                  </p>
+                  <p>
+                    I understand that if I pay less Income Tax and/or Capital Gains Tax than the amount 
+                    of Gift Aid claimed on all my donations in that tax year it is my responsibility to 
+                    pay any difference.
+                  </p>
+                </div>
+              </details>
+            </div>
+          </div>
         </div>
+      </div>
 
-        {/* Trust Indicators */}
-        <div className="mt-12 bg-white rounded-lg shadow-md p-8">
-          <h3 className="text-2xl font-semibold text-center mb-6">
-            Why Donate Through Wonderful.org?
-          </h3>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="text-center">
-              <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <h4 className="font-semibold mb-2">Zero Fees</h4>
-              <p className="text-sm text-gray-600">
-                100% of your donation goes to the charity
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </div>
-              <h4 className="font-semibold mb-2">Secure</h4>
-              <p className="text-sm text-gray-600">
-                Bank-level encryption protects your data
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h4 className="font-semibold mb-2">Transparent</h4>
-              <p className="text-sm text-gray-600">
-                Track exactly where your money goes
-              </p>
-            </div>
-          </div>
+      {/* Footer */}
+      <div className="bg-gray-50 py-8 mt-12">
+        <div className="max-w-4xl mx-auto px-4">
+          <p className="text-sm text-gray-600 text-center mb-2">
+            © Wonderful Organisation 2024.
+          </p>
+          <p className="text-xs text-gray-500 text-center mb-1">
+            The processing of payments is facilitated by <strong>Wonderful Payments Limited</strong> whose 
+            registered office is 41 Luke Street, London EC2A 4DP and who may be contacted{' '}
+            <a href="#" className="text-blue-600 hover:underline">here</a>.
+          </p>
+          <p className="text-xs text-gray-500 text-center mb-1">
+            Wonderful Payments Limited is regulated by the Financial Conduct Authority. 
+            The FCA may be contacted{' '}
+            <a href="#" className="text-blue-600 hover:underline">here</a>.
+          </p>
+          <p className="text-xs text-gray-500 text-center">
+            This charity is registered with the Charity Commission: 1069814 - THEO TRUST
+          </p>
         </div>
       </div>
     </div>
