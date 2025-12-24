@@ -10,10 +10,11 @@ import DonationSuccess from './pages/DonationSuccess';
 import Contact from './pages/Contact';
 import Events from './pages/Events';
 import Accounts from './pages/Accounts';
-import Management from './pages/Management'; // Add this import
+import Management from './pages/Management'; // Change to lowercase
 
 function App() {
   return (
+    
     <Router>
       <div className="flex flex-col min-h-screen">
         <Navbar />
