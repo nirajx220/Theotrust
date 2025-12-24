@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Users, Shield, Award, Heart, Briefcase } from 'lucide-react';
 
-const management = () => {
+const Management = () => {
   const [imageErrors, setImageErrors] = useState({});
 
   const trustees = [
@@ -274,4 +274,4 @@ const management = () => {
   );
 };
 
-export default management;
+export default Management;

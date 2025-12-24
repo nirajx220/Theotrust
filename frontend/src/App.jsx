@@ -10,7 +10,7 @@ import DonationSuccess from './pages/DonationSuccess';
 import Contact from './pages/Contact';
 import Events from './pages/Events';
 import Accounts from './pages/Accounts';
-import Management from './pages/management'; // Change to lowercase
+import Management from './pages/Management'; // Change to lowercase
 
 function App() {
   return (
