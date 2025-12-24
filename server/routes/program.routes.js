@@ -1,4 +1,4 @@
-import express from 'express';
+const express = require('express');
 const router = express.Router();
 
 // Get all programs
@@ -31,4 +31,4 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

@@ -1,5 +1,6 @@
 ﻿import { useState } from 'react';
 import WonderfulCheckout from '../components/donation/WonderfulCheckout';
+import { QrCode } from 'lucide-react';
 
 const Donate = () => {
   const [selectedAmount, setSelectedAmount] = useState(25);
@@ -41,6 +42,7 @@ const Donate = () => {
       </div>
 
       {/* Main Content */}
+      
       <div className="max-w-4xl mx-auto px-4 py-12">
         <div className="grid md:grid-cols-2 gap-12">
           {/* Left Column - Charity Info */}
@@ -134,14 +136,55 @@ const Donate = () => {
               <button
                 onClick={() => setShowCheckout(true)}
                 disabled={!finalAmount || finalAmount < 1}
-                className="w-full bg-blue-600 text-white py-4 rounded-full text-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+                className="w-full bg-blue-600 text-white py-4 rounded-full text-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-300 disabled:cursor-not-allowed mb-8"
               >
                 Continue
               </button>
+
+              {/* QR Code Donation Section */}
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-100">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="bg-blue-600 p-2 rounded-lg">
+                    <QrCode className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900">Quick Donation via QR Code</h3>
+                </div>
+                
+                <p className="text-sm text-gray-600 mb-4">
+                  Scan this QR code with your mobile banking app to donate instantly
+                </p>
+                
+                <div className="bg-white rounded-lg p-4 flex justify-center mb-4">
+                  <img 
+                    src="/theo-trust-donate.png" 
+                    alt="Donation QR Code" 
+                    className="w-48 h-48 object-contain border border-gray-200"
+                    onError={(e) => {
+                      console.error('QR code image failed to load');
+                      e.target.parentElement.innerHTML = '<div class="w-48 h-48 bg-gray-200 rounded flex items-center justify-center"><span class="text-gray-500 text-sm">QR Code Not Found</span></div>';
+                    }}
+                  />
+                </div>
+                
+                <div className="space-y-2 text-xs text-gray-600">
+                  <div className="flex items-center gap-2">
+                    <span className="bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">1</span>
+                    <span>Open your mobile banking or payment app</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">2</span>
+                    <span>Scan the QR code above</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">3</span>
+                    <span>Complete the secure payment</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Gift Aid Info */}
-            <div className="bg-blue-50 rounded-lg p-6">
+            <div className="bg-blue-50 rounded-lg p-6 mt-6">
               <div className="flex items-start gap-3 mb-4">
                 <div className="text-4xl font-bold text-blue-600" style={{ fontFamily: 'cursive' }}>
                   giftaid it

@@ -1,0 +1,23 @@
+{
+  "name": "theotrust-charity",
+  "version": "1.0.0",
+  "description": "TheoTrust Charity Platform - Full Stack Application",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:frontend\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "install:all": "npm install && cd server && npm install && cd ../frontend && npm install",
+    "build:frontend": "cd frontend && npm run build",
+    "start:server": "cd server && npm start"
+  },
+  "keywords": [
+    "charity",
+    "donation",
+    "nonprofit"
+  ],
+  "author": "TheoTrust",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

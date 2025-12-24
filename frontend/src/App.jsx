@@ -9,6 +9,8 @@ import Donate from './pages/Donate';
 import DonationSuccess from './pages/DonationSuccess';
 import Contact from './pages/Contact';
 import Events from './pages/Events';
+import Accounts from './pages/Accounts';
+import Management from './pages/Management'; // Add this import
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
             <Route path="/donation/success" element={<DonationSuccess />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/events" element={<Events />} />
+            <Route path="/accounts" element={<Accounts />} />
+            <Route path="/management" element={<Management />} /> {/* Add this route */}
           </Routes>
         </main>
         <Footer />

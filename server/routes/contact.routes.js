@@ -1,4 +1,4 @@
-import express from 'express';
+const express = require('express');
 const router = express.Router();
 
 // Add your contact routes here
@@ -21,4 +21,4 @@ router.post('/', async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { Facebook, Twitter, Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -12,8 +12,12 @@ const Footer = () => {
           {/* Company Info */}
           <div>
             <div className="flex items-center space-x-3 mb-4">
-              <div className="bg-white rounded-full p-2">
-                <Heart className="w-5 h-5 text-gray-900" fill="currentColor" />
+              <div className="bg-white rounded-full p-2 w-10 h-10 flex items-center justify-center">
+                <img 
+                  src="/theo-trust-logo.png" 
+                  alt="TheoTrust Logo" 
+                  className="w-6 h-6 object-contain"
+                />
               </div>
               <div>
                 <h3 className="font-bold text-lg">TheoTrust</h3>
@@ -29,12 +33,6 @@ const Footer = () => {
               </a>
               <a href="#" className="bg-gray-800 p-2 rounded-lg hover:bg-gray-700 transition">
                 <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="bg-gray-800 p-2 rounded-lg hover:bg-gray-700 transition">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="bg-gray-800 p-2 rounded-lg hover:bg-gray-700 transition">
-                <Linkedin className="w-5 h-5" />
               </a>
             </div>
           </div>

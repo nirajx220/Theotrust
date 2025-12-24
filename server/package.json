@@ -1,5 +1,4 @@
 {
-  "type": "module",
   "name": "theotrust-backend",
   "version": "1.0.0",
   "description": "TheoTrust charity backend with Wonderful.org integration",

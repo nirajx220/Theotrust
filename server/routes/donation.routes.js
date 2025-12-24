@@ -1,22 +1,22 @@
-import express from 'express';
+const express = require('express');
 const router = express.Router();
-import {
+const {
   createDonation,
   verifyDonationPayment,
   getAllDonations,
   getDonation,
   getDonationStats,
-} from '../controllers/donationController';
-import { protect } from '../middleware/auth';
-import { validateDonation } from '../middleware/validation';
+} = require('../controllers/donationController');
+const { protect } = require('../middleware/auth');
+const { validateDonation } = require('../middleware/validation');
 
 // Public routes
 router.post('/', validateDonation, createDonation);
 router.get('/verify/:sessionId', verifyDonationPayment);
 router.get('/stats', getDonationStats);
 
-// Protected routes (admin only)
-router.get('/', protect, getAllDonations);
-router.get('/:id', protect, getDonation);
+// Protected routes (admin only) - moved to /admin prefix
+router.get('/admin', protect, getAllDonations);
+router.get('/admin/:id', protect, getDonation);
 
-export default router;
+module.exports = router;

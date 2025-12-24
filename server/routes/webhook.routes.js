@@ -1,7 +1,7 @@
-import express from 'express';
+const express = require('express');
 const router = express.Router();
-import Donation from '../models/Donation';
-import { verifyWebhookSignature } from '../config/wonderful';
+const Donation = require('../models/Donation');
+const { verifyWebhookSignature } = require('../config/wonderful');
 
 // Wonderful.org webhook endpoint
 router.post('/wonderful', express.raw({ type: 'application/json' }), async (req, res) => {
@@ -77,4 +77,4 @@ async function handleDonationCancelled(data) {
   console.log(`Donation cancelled: ${data.session_id}`);
 }
 
-export default router;
+module.exports = router;

@@ -1,4 +1,4 @@
-import express from 'express';
+const express = require('express');
 const router = express.Router();
 
 // Get donation statistics
@@ -23,4 +23,4 @@ router.get('/', async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;
