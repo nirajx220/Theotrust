@@ -1,5 +1,5 @@
 ﻿import { useState } from 'react';
-import WonderfulCheckout from '../components/donation/WonderfulCheckout';
+import WonderfulCheckOut from '../components/donation/WonderfulCheckOut';
 import { QrCode } from 'lucide-react';
 
 const Donate = () => {
@@ -25,7 +25,7 @@ const Donate = () => {
   const finalAmount = customAmount ? parseInt(customAmount) : selectedAmount;
 
   if (showCheckout) {
-    return <WonderfulCheckout amount={finalAmount} onBack={() => setShowCheckout(false)} />;
+    return <WonderfulCheckOut amount={finalAmount} onBack={() => setShowCheckout(false)} />;
   }
 
   return (

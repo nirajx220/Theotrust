@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 
-const WonderfulCheckout = ({ amount, onBack }) => {
+const WonderfulCheckOut = ({ amount, onBack }) => {
   const [formData, setFormData] = useState({
     email: '',
     shareEmail: false,
@@ -272,4 +272,4 @@ const WonderfulCheckout = ({ amount, onBack }) => {
   );
 };
 
-export default WonderfulCheckout;
+export default WonderfulCheckOut;
