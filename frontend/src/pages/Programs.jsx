@@ -1,15 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Globe, Heart, Users, BookOpen, Home, Lightbulb, Briefcase, MapPin, Calendar, ArrowRight } from 'lucide-react';
 
 const ProgramsPage = () => {
   const [selectedProgram, setSelectedProgram] = useState('all');
+
+  // Scroll to section on mount if hash exists
+  useEffect(() => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash) {
+      setTimeout(() => {
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  }, []);
 
   const programs = [
     {
       id: 'ukraine',
       category: 'Emergency Relief',
       icon: <Globe className="w-12 h-12" />,
-      title: 'Ukraine Assistance',
+      title: 'Support to Ukraine',
       subtitle: 'Emergency Educational Support',
       description: 'Providing critical educational support to Ukrainian children affected by conflict. Our comprehensive program ensures children continue learning in safe environments while receiving psychological support.',
       image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&h=600&fit=crop',
@@ -50,11 +63,99 @@ const ProgramsPage = () => {
       ]
     },
     {
-      id: 'uk-youngsters',
+      id: 'philippines',
+      category: 'International Aid',
+      icon: <Globe className="w-12 h-12" />,
+      title: 'Support in the Philippines',
+      subtitle: 'Community Education Programs',
+      description: 'Building educational infrastructure and providing resources to underserved communities in the Philippines, focusing on sustainable development and community empowerment.',
+      image: 'https://images.unsplash.com/photo-1528127269322-539801943592?w=800&h=600&fit=crop',
+      stats: [
+        { number: '1,800+', label: 'Students Enrolled' },
+        { number: '12', label: 'Schools Supported' },
+        { number: '85', label: 'Teachers Trained' }
+      ],
+      features: [
+        {
+          icon: <Home className="w-6 h-6" />,
+          title: 'School Infrastructure',
+          description: 'Building and renovating school facilities in remote communities'
+        },
+        {
+          icon: <BookOpen className="w-6 h-6" />,
+          title: 'Educational Resources',
+          description: 'Providing books, supplies, and learning materials'
+        },
+        {
+          icon: <Users className="w-6 h-6" />,
+          title: 'Teacher Development',
+          description: 'Training programs for local educators to improve teaching quality'
+        },
+        {
+          icon: <Heart className="w-6 h-6" />,
+          title: 'Community Programs',
+          description: 'Engaging families and communities in children\'s education'
+        }
+      ],
+      locations: ['Manila', 'Cebu', 'Mindanao', 'Luzon'],
+      impact: 'Our Philippine programs have improved literacy rates by 40% and school attendance by 65% in partnered communities.',
+      howToHelp: [
+        'Sponsor a classroom for £2,000',
+        'Provide school supplies for £250',
+        'Fund teacher training for £500/year',
+        'Support infrastructure projects'
+      ]
+    },
+    {
+      id: 'india',
+      category: 'Educational Development',
+      icon: <BookOpen className="w-12 h-12" />,
+      title: 'Assistance in India',
+      subtitle: 'Rural Education Initiative',
+      description: 'Transforming lives through education in rural India, focusing on girls\' education, digital literacy, and creating pathways out of poverty through quality learning opportunities.',
+      image: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=800&h=600&fit=crop',
+      stats: [
+        { number: '3,200+', label: 'Children Educated' },
+        { number: '20', label: 'Villages Reached' },
+        { number: '150', label: 'Volunteers' }
+      ],
+      features: [
+        {
+          icon: <Users className="w-6 h-6" />,
+          title: 'Girls\' Education Focus',
+          description: 'Special programs to ensure girls have equal access to quality education'
+        },
+        {
+          icon: <Lightbulb className="w-6 h-6" />,
+          title: 'Digital Literacy',
+          description: 'Computer training and technology skills for rural students'
+        },
+        {
+          icon: <BookOpen className="w-6 h-6" />,
+          title: 'Evening Schools',
+          description: 'Alternative education for children who work during the day'
+        },
+        {
+          icon: <Heart className="w-6 h-6" />,
+          title: 'Health & Nutrition',
+          description: 'Supplementary meals and health check-ups for students'
+        }
+      ],
+      locations: ['Rajasthan', 'Uttar Pradesh', 'Bihar', 'West Bengal'],
+      impact: '85% of our students continue to secondary education, compared to 40% regional average. Girls\' enrollment increased by 70%.',
+      howToHelp: [
+        'Sponsor a girl\'s education for £30/month',
+        'Fund a computer lab for £3,000',
+        'Provide meals for 100 children for £500',
+        'Support scholarship programs'
+      ]
+    },
+    {
+      id: 'british-children',
       category: 'Youth Development',
       icon: <Briefcase className="w-12 h-12" />,
-      title: 'UK Youngsters',
-      subtitle: 'Empowering British Youth',
+      title: 'Help to British Children',
+      subtitle: 'Empowering UK Youth',
       description: 'Supporting disadvantaged youth across the UK with comprehensive programs that combine education, mentorship, and skills development to break the cycle of poverty.',
       image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&h=600&fit=crop',
       stats: [
@@ -94,47 +195,47 @@ const ProgramsPage = () => {
       ]
     },
     {
-      id: 'overseas',
-      category: 'Infrastructure',
-      icon: <Home className="w-12 h-12" />,
-      title: 'Overseas Youngsters',
-      subtitle: 'Building Educational Infrastructure',
-      description: 'Creating sustainable educational opportunities in developing countries by building schools, training teachers, and providing essential resources to remote communities.',
+      id: 'conflict',
+      category: 'Crisis Response',
+      icon: <Heart className="w-12 h-12" />,
+      title: 'Help to Children in Conflict',
+      subtitle: 'Education in Emergency Zones',
+      description: 'Providing education and psychosocial support to children in conflict-affected areas worldwide, ensuring they don\'t lose hope or opportunity despite circumstances.',
       image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&h=600&fit=crop',
       stats: [
-        { number: '7,500+', label: 'Students Enrolled' },
-        { number: '45', label: 'Schools Built' },
-        { number: '18', label: 'Countries' }
+        { number: '4,500+', label: 'Children Reached' },
+        { number: '8', label: 'Conflict Zones' },
+        { number: '180', label: 'Aid Workers' }
       ],
       features: [
         {
           icon: <Home className="w-6 h-6" />,
-          title: 'School Construction',
-          description: 'Building modern, safe school facilities in underserved areas'
-        },
-        {
-          icon: <Users className="w-6 h-6" />,
-          title: 'Teacher Training',
-          description: 'Comprehensive training programs for local educators'
-        },
-        {
-          icon: <BookOpen className="w-6 h-6" />,
-          title: 'Educational Resources',
-          description: 'Books, supplies, and technology for effective learning'
+          title: 'Safe Learning Spaces',
+          description: 'Protected environments where children can learn despite conflict'
         },
         {
           icon: <Heart className="w-6 h-6" />,
-          title: 'Community Engagement',
-          description: 'Working with local communities to ensure program sustainability'
+          title: 'Psychosocial Support',
+          description: 'Trauma counseling and mental health services for affected children'
+        },
+        {
+          icon: <BookOpen className="w-6 h-6" />,
+          title: 'Accelerated Learning',
+          description: 'Catch-up programs for children who missed years of education'
+        },
+        {
+          icon: <Users className="w-6 h-6" />,
+          title: 'Family Reunification',
+          description: 'Support services to help separated families reconnect'
         }
       ],
-      locations: ['Kenya', 'Tanzania', 'India', 'Nepal', 'Cambodia', 'Philippines'],
-      impact: 'We\'ve built 45 schools serving over 7,500 students in remote areas, with 95% of students showing improved literacy and numeracy.',
+      locations: ['Syria', 'Yemen', 'South Sudan', 'Myanmar', 'Afghanistan'],
+      impact: 'We\'ve restored educational access to 4,500+ children in conflict zones, with 92% showing improved psychological wellbeing.',
       howToHelp: [
-        'Build a classroom for £10,000',
-        'Sponsor a teacher\'s salary for £200/month',
-        'Provide school supplies for £500',
-        'Fund a complete school for £50,000'
+        'Sponsor emergency education for £60/month',
+        'Fund a safe learning space for £8,000',
+        'Provide psychological support services',
+        'Support rapid response teams'
       ]
     }
   ];
@@ -183,27 +284,47 @@ const ProgramsPage = () => {
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
-              Ukraine Assistance
+              🇺🇦 Ukraine
             </button>
             <button 
-              onClick={() => setSelectedProgram('uk-youngsters')}
+              onClick={() => setSelectedProgram('philippines')}
               className={`px-6 py-3 rounded-full font-semibold transition ${
-                selectedProgram === 'uk-youngsters' 
+                selectedProgram === 'philippines' 
                   ? 'bg-gray-900 text-white' 
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
-              UK Youngsters
+              🇵🇭 Philippines
             </button>
             <button 
-              onClick={() => setSelectedProgram('overseas')}
+              onClick={() => setSelectedProgram('india')}
               className={`px-6 py-3 rounded-full font-semibold transition ${
-                selectedProgram === 'overseas' 
+                selectedProgram === 'india' 
                   ? 'bg-gray-900 text-white' 
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
-              Overseas Youngsters
+              🇮🇳 India
+            </button>
+            <button 
+              onClick={() => setSelectedProgram('british-children')}
+              className={`px-6 py-3 rounded-full font-semibold transition ${
+                selectedProgram === 'british-children' 
+                  ? 'bg-gray-900 text-white' 
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              🇬🇧 British Children
+            </button>
+            <button 
+              onClick={() => setSelectedProgram('conflict')}
+              className={`px-6 py-3 rounded-full font-semibold transition ${
+                selectedProgram === 'conflict' 
+                  ? 'bg-gray-900 text-white' 
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              🕊️ Conflict Zones
             </button>
           </div>
         </div>
@@ -213,7 +334,11 @@ const ProgramsPage = () => {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {filteredPrograms.map((program, index) => (
-            <div key={program.id} className={`${index > 0 ? 'mt-20' : ''}`}>
+            <div 
+              key={program.id} 
+              id={program.id}
+              className={`scroll-mt-20 ${index > 0 ? 'mt-20' : ''}`}
+            >
               {/* Program Header */}
               <div className="bg-white rounded-3xl overflow-hidden shadow-xl">
                 <div className="grid md:grid-cols-2 gap-0">
