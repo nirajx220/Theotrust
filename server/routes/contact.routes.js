@@ -1,24 +1,25 @@
 const express = require('express');
 const router = express.Router();
+const { submitContact, getAllContacts } = require('../controllers/contactController');
+const { validateContact } = require('../middleware/validation');
+const { protect } = require('../middleware/auth');
 
-// Add your contact routes here
-router.post('/', async (req, res) => {
-  try {
-    // Handle contact form submission
-    const { name, email, message } = req.body;
-    
-    // Add your logic here (save to DB, send email, etc.)
-    
-    res.json({ 
-      success: true, 
-      message: 'Contact form submitted successfully' 
-    });
-  } catch (error) {
-    res.status(500).json({ 
-      success: false, 
-      message: error.message 
+// Middleware to check admin role
+const isAdmin = (req, res, next) => {
+  if (req.user && req.user.role === 'admin') {
+    next();
+  } else {
+    res.status(403).json({
+      success: false,
+      message: 'Access denied. Admin privileges required.',
     });
   }
-});
+};
+
+// Public route
+router.post('/', validateContact, submitContact);
+
+// Admin routes
+router.get('/', protect, isAdmin, getAllContacts);
 
 module.exports = router;

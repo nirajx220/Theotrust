@@ -1,11 +1,9 @@
-// server/utils/helpers.js
-import crypto from 'crypto';
+const crypto = require('crypto');
 
 /**
  * Generate a unique reference ID for donations
- * Format: DON-YYYYMMDD-XXXXX
  */
-export const generateDonationReference = () => {
+const generateDonationReference = () => {
   const date = new Date();
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -17,9 +15,8 @@ export const generateDonationReference = () => {
 
 /**
  * Generate a unique reference ID for contacts
- * Format: CNT-YYYYMMDD-XXXXX
  */
-export const generateContactReference = () => {
+const generateContactReference = () => {
   const date = new Date();
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -32,92 +29,53 @@ export const generateContactReference = () => {
 /**
  * Format currency amount
  */
-export const formatCurrency = (amount, currency = 'GBP') => {
+const formatCurrency = (amount, currency = 'GBP') => {
   const symbols = {
     GBP: '£',
     USD: '$',
     EUR: '€'
   };
   
-  return `${symbols[currency] || '£'}${amount.toFixed(2)}`;
+  // Validate and coerce amount
+  const parsed = parseFloat(amount);
+  const validAmount = Number.isFinite(parsed) ? parsed : 0;
+  
+  return `${symbols[currency] || '£'}${validAmount.toFixed(2)}`;
 };
 
 /**
- * Calculate donation impact message
+ * Sanitize user input (basic HTML escaping)
+ * Note: For rich text, use a proper library like DOMPurify or sanitize-html
  */
-export const getImpactMessage = (amount) => {
-  if (amount >= 1000) {
-    return {
-      title: 'Teacher Training Program',
-      description: 'Your generous donation will support teacher training programs for 10 educators, helping them deliver quality education to hundreds of children.',
-      icon: '👩‍🏫'
-    };
-  } else if (amount >= 500) {
-    return {
-      title: 'Complete Classroom Setup',
-      description: 'Your donation will fund a complete classroom setup with furniture and essential learning materials for an entire class.',
-      icon: '🏫'
-    };
-  } else if (amount >= 250) {
-    return {
-      title: 'Classroom Learning Materials',
-      description: 'Your contribution will provide essential learning materials for an entire classroom of students.',
-      icon: '📚'
-    };
-  } else if (amount >= 100) {
-    return {
-      title: '3-Month Child Sponsorship',
-      description: "Your donation will sponsor one child's education for three months, including books, supplies, and tutoring.",
-      icon: '🎓'
-    };
-  } else if (amount >= 50) {
-    return {
-      title: 'Weekly Tutoring Support',
-      description: 'Your support will fund a week of after-school tutoring for 5 children.',
-      icon: '✏️'
-    };
-  } else {
-    return {
-      title: 'Monthly School Supplies',
-      description: 'Your donation will provide school supplies for one child for a month, helping them stay engaged in their education.',
-      icon: '📝'
-    };
-  }
-};
-
-/**
- * Sanitize user input
- */
-export const sanitizeInput = (input) => {
+const sanitizeInput = (input) => {
   if (typeof input !== 'string') return input;
   
   return input
     .trim()
-    .replace(/[<>]/g, '') // Remove potential HTML tags
-    .substring(0, 1000); // Limit length
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+    .replace(/\//g, '&#x2F;')
+    .substring(0, 1000);
 };
 
 /**
  * Validate email format
  */
-export const isValidEmail = (email) => {
+const isValidEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
 
 /**
- * Validate phone number (UK format)
- */
-export const isValidPhone = (phone) => {
-  const phoneRegex = /^(\+44\s?7\d{3}|\(?07\d{3}\)?)\s?\d{3}\s?\d{3}$/;
-  return phoneRegex.test(phone);
-};
-
-/**
  * Calculate pagination metadata
  */
-export const getPaginationMetadata = (total, page, limit) => {
-  const totalPages = Math.ceil(total / limit);
+const getPaginationMetadata = (total, page, limit) => {
+  // Ensure limit is valid to avoid division by zero or Infinity
+  const validLimit = (limit && limit > 0) ? limit : 10;
+  const totalPages = Math.ceil(total / validLimit);
   const hasNextPage = page < totalPages;
   const hasPrevPage = page > 1;
   
@@ -125,256 +83,129 @@ export const getPaginationMetadata = (total, page, limit) => {
     total,
     totalPages,
     currentPage: page,
-    perPage: limit,
+    perPage: validLimit,
     hasNextPage,
     hasPrevPage,
     nextPage: hasNextPage ? page + 1 : null,
-    prevPage: hasPrevPage ? page - 1 : null
+    prevPage: hasPrevPage ? page - 1 : null,
   };
 };
 
 /**
- * Generate random secure token
+ * Validate phone number format
  */
-export const generateSecureToken = (length = 32) => {
-  return crypto.randomBytes(length).toString('hex');
+const isValidPhone = (phone) => {
+  if (!phone) return false;
+  const phoneRegex = /^[\d\s\-\+\(\)]+$/;
+  return phoneRegex.test(phone);
 };
 
 /**
- * Hash sensitive data
+ * Format date to readable string
  */
-export const hashData = (data) => {
-  return crypto.createHash('sha256').update(data).digest('hex');
+const formatDate = (date, locale = 'en-GB') => {
+  if (!date) return '';
+  return new Date(date).toLocaleDateString(locale);
 };
 
 /**
- * Format date for display
+ * Calculate days until a future date
  */
-export const formatDate = (date, format = 'long') => {
-  const d = new Date(date);
-  
-  if (format === 'short') {
-    return d.toLocaleDateString('en-GB');
-  } else if (format === 'long') {
-    return d.toLocaleDateString('en-GB', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    });
-  } else if (format === 'datetime') {
-    return d.toLocaleString('en-GB');
-  }
-  
-  return d.toISOString();
-};
-
-/**
- * Calculate days until date
- */
-export const daysUntil = (date) => {
+const daysUntil = (futureDate) => {
   const now = new Date();
-  const target = new Date(date);
-  const diffTime = target - now;
+  const future = new Date(futureDate);
+  const diffTime = future - now;
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  return diffDays;
+  return diffDays > 0 ? diffDays : 0;
 };
 
 /**
- * Check if date is in the past
+ * Generate URL-friendly slug from string
  */
-export const isPastDate = (date) => {
-  return new Date(date) < new Date();
-};
-
-/**
- * Generate slug from string
- */
-export const generateSlug = (text) => {
+const generateSlug = (text) => {
+  if (!text) return '';
   return text
     .toLowerCase()
+    .trim()
     .replace(/[^\w\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .trim();
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 };
 
 /**
- * Calculate percentage
+ * Calculate UK Gift Aid (25% on top of donation)
  */
-export const calculatePercentage = (value, total) => {
-  if (total === 0) return 0;
-  return Math.round((value / total) * 100);
+const calculateGiftAid = (amount) => {
+  const parsed = parseFloat(amount);
+  if (!Number.isFinite(parsed) || parsed <= 0) return 0;
+  return parsed * 0.25;
 };
 
 /**
- * Truncate text
+ * Retry async operation with exponential backoff
  */
-export const truncateText = (text, maxLength = 100) => {
-  if (text.length <= maxLength) return text;
-  return text.substring(0, maxLength).trim() + '...';
-};
-
-/**
- * Get program name from ID
- */
-export const getProgramName = (programId) => {
-  const programs = {
-    'where-needed': 'Where Most Needed',
-    'ukraine': 'Ukraine Assistance',
-    'uk-youngsters': 'UK Youngsters',
-    'overseas': 'Overseas Youngsters'
-  };
-  
-  return programs[programId] || 'General Fund';
-};
-
-/**
- * Get donation type label
- */
-export const getDonationTypeLabel = (type) => {
-  return type === 'monthly' ? 'Monthly Recurring' : 'One-Time';
-};
-
-/**
- * Validate donation amount
- */
-export const isValidDonationAmount = (amount) => {
-  return typeof amount === 'number' && amount >= 1 && amount <= 100000;
-};
-
-/**
- * Get tax deductible amount (UK Gift Aid)
- */
-export const calculateGiftAid = (amount) => {
-  // UK Gift Aid adds 25% to donation at no extra cost to donor
-  return amount * 0.25;
-};
-
-/**
- * Check if string contains profanity (basic check)
- */
-export const containsProfanity = (text) => {
-  const profanityList = ['spam', 'scam']; // Add more as needed
-  const lowerText = text.toLowerCase();
-  return profanityList.some(word => lowerText.includes(word));
-};
-
-/**
- * Get IP address from request
- */
-export const getClientIp = (req) => {
-  return req.headers['x-forwarded-for']?.split(',')[0] || 
-         req.headers['x-real-ip'] || 
-         req.connection.remoteAddress || 
-         req.socket.remoteAddress;
-};
-
-/**
- * Sleep/delay function
- */
-export const sleep = (ms) => {
-  return new Promise(resolve => setTimeout(resolve, ms));
-};
-
-/**
- * Retry function with exponential backoff
- */
-export const retryWithBackoff = async (fn, maxRetries = 3, delay = 1000) => {
+const retryWithBackoff = async (fn, maxRetries = 3, delay = 1000) => {
   for (let i = 0; i < maxRetries; i++) {
     try {
       return await fn();
     } catch (error) {
       if (i === maxRetries - 1) throw error;
-      await sleep(delay * Math.pow(2, i));
+      await new Promise(resolve => setTimeout(resolve, delay * Math.pow(2, i)));
     }
   }
 };
 
 /**
- * Convert object to query string
+ * Deep clone an object
  */
-export const objectToQueryString = (obj) => {
-  return Object.entries(obj)
-    .filter(([_, value]) => value !== null && value !== undefined)
-    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-    .join('&');
-};
-
-/**
- * Deep clone object
- */
-export const deepClone = (obj) => {
+const deepClone = (obj) => {
+  if (obj === null || typeof obj !== 'object') return obj;
   return JSON.parse(JSON.stringify(obj));
-};
-
-/**
- * Check if object is empty
- */
-export const isEmpty = (obj) => {
-  return Object.keys(obj).length === 0;
 };
 
 /**
  * Generate CSV from array of objects
  */
-export const generateCSV = (data, fields) => {
-  if (!data || data.length === 0) return '';
+const generateCSV = (data, fields) => {
+  if (!Array.isArray(data) || data.length === 0) return '';
   
-  const header = fields.join(',');
-  const rows = data.map(item => 
-    fields.map(field => {
-      const value = item[field] || '';
-      return `"${String(value).replace(/"/g, '""')}"`;
-    }).join(',')
-  );
+  const headers = fields || Object.keys(data[0]);
+  const csvRows = [];
   
-  return [header, ...rows].join('\n');
+  // Add header row
+  csvRows.push(headers.join(','));
+  
+  // Add data rows
+  for (const row of data) {
+    const values = headers.map(header => {
+      const value = row[header];
+      const escaped = ('' + value).replace(/"/g, '\\"');
+      return `"${escaped}"`;
+    });
+    csvRows.push(values.join(','));
+  }
+  
+  return csvRows.join('\n');
 };
 
-/**
- * Parse CSV string
- */
-export const parseCSV = (csv) => {
-  const lines = csv.split('\n');
-  const headers = lines[0].split(',');
-  
-  return lines.slice(1).map(line => {
-    const values = line.split(',');
-    return headers.reduce((obj, header, index) => {
-      obj[header.trim()] = values[index]?.trim() || '';
-      return obj;
-    }, {});
-  });
-};
-
-export default {
+module.exports = {
   generateDonationReference,
   generateContactReference,
   formatCurrency,
-  getImpactMessage,
   sanitizeInput,
   isValidEmail,
-  isValidPhone,
   getPaginationMetadata,
-  generateSecureToken,
-  hashData,
+  isValidPhone,
   formatDate,
   daysUntil,
-  isPastDate,
   generateSlug,
-  calculatePercentage,
-  truncateText,
-  getProgramName,
-  getDonationTypeLabel,
-  isValidDonationAmount,
   calculateGiftAid,
-  containsProfanity,
-  getClientIp,
-  sleep,
   retryWithBackoff,
-  objectToQueryString,
   deepClone,
-  isEmpty,
-  generateCSV,
-  parseCSV
+  generateCSVence,
+  generateContactReference,
+  formatCurrency,
+  sanitizeInput,
+  isValidEmail,
+  getPaginationMetadata,
 };

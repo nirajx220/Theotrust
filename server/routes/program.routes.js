@@ -1,34 +1,21 @@
 const express = require('express');
 const router = express.Router();
+const {
+  getAllPrograms,
+  getProgram,
+  createProgram,
+  updateProgram,
+  deleteProgram,
+} = require('../controllers/programController');
+const { protect } = require('../middleware/auth');
 
-// Get all programs
-router.get('/', async (req, res) => {
-  try {
-    res.json({ 
-      success: true, 
-      programs: [] 
-    });
-  } catch (error) {
-    res.status(500).json({ 
-      success: false, 
-      message: error.message 
-    });
-  }
-});
+// Public routes
+router.get('/', getAllPrograms);
+router.get('/:id', getProgram);
 
-// Get single program
-router.get('/:id', async (req, res) => {
-  try {
-    res.json({ 
-      success: true, 
-      program: {} 
-    });
-  } catch (error) {
-    res.status(500).json({ 
-      success: false, 
-      message: error.message 
-    });
-  }
-});
+// Protected routes (admin)
+router.post('/', protect, createProgram);
+router.put('/:id', protect, updateProgram);
+router.delete('/:id', protect, deleteProgram);
 
 module.exports = router;
