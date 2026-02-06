@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, Clock, Facebook, Twitter, Instagram, Linkedin, MessageSquare, HelpCircle } from 'lucide-react';
+import { MapPin, Phone, Mail, Send, Globe } from 'lucide-react';
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -8,381 +8,332 @@ const ContactPage = () => {
     phone: '',
     subject: '',
     message: '',
-    inquiryType: 'general'
+    inquiryType: 'general',
   });
-
-  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would integrate with your backend API
-    console.log('Form submitted:', formData);
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
+    setLoading(true);
+    setError('');
+    setSuccess(false);
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setSuccess(true);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          message: '',
+          inquiryType: 'general',
+        });
+        setTimeout(() => setSuccess(false), 5000);
+      } else {
+        setError(data.message || 'Failed to send message');
+      }
+    } catch (err) {
+      setError('Failed to send message. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const contactMethods = [
+  const contactInfo = [
     {
-      icon: <Mail className="w-8 h-8" />,
-      title: 'Email Us',
-      details: ['info@theotrust.org', 'support@theotrust.org'],
-      description: 'We typically respond within 24 hours'
+      icon: (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      ),
+      title: 'Address',
+      content: 'Paradise Farm, Burton Rd., Needwood',
+      content2: 'Burton on Trent, Staffs. DE13 9PB',
+      link: 'https://maps.google.com/?q=Paradise+Farm+Burton+Rd+Needwood+Burton+on+Trent+DE13+9PB',
+      bgColor: 'bg-gradient-to-br from-red-100 to-pink-100',
+      iconColor: 'text-red-600',
     },
     {
-      icon: <Phone className="w-8 h-8" />,
-      title: 'Call Us',
-      details: ['+44 20 7123 4567', '+44 20 7123 4568'],
-      description: 'Mon-Fri: 9:00 AM - 6:00 PM GMT'
+      icon: (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+        </svg>
+      ),
+      title: 'Phone',
+      content: '+44 7976 427791',
+      link: 'tel:+447976427791',
+      bgColor: 'bg-gradient-to-br from-green-100 to-emerald-100',
+      iconColor: 'text-green-600',
     },
     {
-      icon: <MapPin className="w-8 h-8" />,
-      title: 'Visit Us',
-      details: ['123 Charity Lane', 'London, EC1A 1BB', 'United Kingdom'],
-      description: 'By appointment only'
-    }
+      icon: (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      ),
+      title: 'Email',
+      content: 'theotrust1998@gmail.com',
+      link: 'mailto:theotrust1998@gmail.com',
+      bgColor: 'bg-gradient-to-br from-purple-100 to-violet-100',
+      iconColor: 'text-purple-600',
+    },
+    {
+      icon: (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+        </svg>
+      ),
+      title: 'Website',
+      content: 'www.theotrust.org',
+      link: 'https://theotrust.org',
+      bgColor: 'bg-gradient-to-br from-blue-100 to-cyan-100',
+      iconColor: 'text-blue-600',
+    },
   ];
 
-  const offices = [
-    {
-      city: 'London, UK',
-      address: '123 Charity Lane, London EC1A 1BB',
-      phone: '+44 20 7123 4567',
-      email: 'london@theotrust.org'
-    },
-    {
-      city: 'New York, USA',
-      address: '456 Nonprofit Ave, NY 10001',
-      phone: '+1 212 555 0123',
-      email: 'newyork@theotrust.org'
-    },
-    {
-      city: 'Nairobi, Kenya',
-      address: '789 Education Rd, Nairobi',
-      phone: '+254 20 123 4567',
-      email: 'nairobi@theotrust.org'
-    }
-  ];
-
-  const faqs = [
-    {
-      question: 'How can I make a donation?',
-      answer: 'You can donate online through our secure payment portal, by bank transfer, or by sending a cheque to our office.'
-    },
-    {
-      question: 'Can I visit your projects?',
-      answer: 'Yes! We organize regular visits for donors and supporters. Please contact us to arrange a visit to one of our project sites.'
-    },
-    {
-      question: 'How do I become a volunteer?',
-      answer: 'We welcome volunteers! Fill out our volunteer application form and our team will contact you about available opportunities.'
-    },
-    {
-      question: 'Are donations tax-deductible?',
-      answer: 'Yes, TheoTrust is a registered charity. All donations are tax-deductible and you will receive a receipt for your records.'
-    }
+  const inquiryTypes = [
+    { value: 'general', label: 'General Inquiry' },
+    { value: 'donation', label: 'Donation Information' },
+    { value: 'volunteer', label: 'Volunteer Opportunity' },
+    { value: 'partnership', label: 'Partnership Proposal' },
   ];
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-gray-800 to-gray-900 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-5xl font-bold mb-6">Get in Touch</h1>
-            <p className="text-xl text-gray-300">
-              Have questions or want to get involved? We'd love to hear from you. 
-              Our team is here to help and answer any questions you may have.
-            </p>
+      {/* Hero Section with Background Image */}
+      <div className="relative text-white pt-4 pb-24 overflow-hidden">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1600&q=80')`,
+          }}
+        >
+          {/* Dark overlay for better text readability */}
+          <div className="absolute inset-0 bg-black/60"></div>
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-center min-h-[100px]">
+            <div className="text-center">
+              <h1 className="text-4xl md:text-5xl font-bold mb-2">Get In Touch</h1>
+              <p className="text-base md:text-lg text-gray-100 max-w-3xl mx-auto">
+                Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+              </p>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Contact Methods */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-8">
-            {contactMethods.map((method, index) => (
-              <div key={index} className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8 text-center hover:shadow-xl transition">
-                <div className="bg-gray-900 rounded-full p-4 inline-block mb-6">
-                  <div className="text-white">{method.icon}</div>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">{method.title}</h3>
-                {method.details.map((detail, idx) => (
-                  <p key={idx} className="text-gray-700 font-semibold mb-1">{detail}</p>
-                ))}
-                <p className="text-gray-600 text-sm mt-4">{method.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Form & Map */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <div className="bg-white rounded-3xl p-8 shadow-xl">
-              <div className="flex items-center space-x-3 mb-6">
-                <MessageSquare className="w-8 h-8 text-blue-600" />
-                <h2 className="text-3xl font-bold text-gray-900">Send Us a Message</h2>
-              </div>
-
-              {submitted && (
-                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-xl mb-6">
-                  Thank you! Your message has been sent successfully. We'll get back to you soon.
-                </div>
-              )}
-
-              <div className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Full Name *
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
-                      placeholder="John Doe"
-                    />
+      {/* Main Content - Cards in horizontal layout */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 pb-8 relative z-20">
+        <div className="grid md:grid-cols-12 gap-5 mb-5">
+          {/* Contact Information - Narrower with Hover Effect */}
+          <div className="md:col-span-4 bg-white rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+            <h2 className="text-xl font-bold text-gray-900 mb-5 text-center">Contact Information</h2>
+            
+            <div className="space-y-5">
+              {contactInfo.map((info, index) => (
+                <div key={index} className="flex items-start space-x-3 p-2 rounded-lg transition-all duration-200 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:scale-105 group">
+                  <div className={`flex-shrink-0 w-12 h-12 ${info.bgColor} rounded-xl flex items-center justify-center ${info.iconColor} transition-all duration-200 group-hover:scale-110 group-hover:shadow-md`}>
+                    {info.icon}
                   </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Email Address *
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
-                      placeholder="john@example.com"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Phone Number
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
-                      placeholder="+44 20 1234 5678"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Inquiry Type *
-                    </label>
-                    <select
-                      name="inquiryType"
-                      value={formData.inquiryType}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-gray-900 text-base mb-1">{info.title}</h3>
+                    <p className="text-gray-600 text-sm leading-snug">{info.content}</p>
+                    {info.content2 && (
+                      <p className="text-gray-600 text-sm leading-snug">{info.content2}</p>
+                    )}
+                    <a
+                      href={info.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-800 text-sm font-medium inline-flex items-center mt-1.5 transition-colors duration-200 hover:underline"
                     >
-                      <option value="general">General Inquiry</option>
-                      <option value="donation">Donation</option>
-                      <option value="volunteer">Volunteer</option>
-                      <option value="partnership">Partnership</option>
-                      <option value="media">Media</option>
-                    </select>
+                      Visit →
+                    </a>
                   </div>
                 </div>
+              ))}
+            </div>
+          </div>
 
+          {/* Contact Form - Wider with Hover Effect */}
+          <div className="md:col-span-8 bg-white rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Send Us a Message</h2>
+
+            {success && (
+              <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                <p className="text-green-800 text-sm font-medium">
+                  Thank you for your message! We'll get back to you within 24-48 hours.
+                </p>
+              </div>
+            )}
+
+            {error && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-red-800 text-sm font-medium">{error}</p>
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Subject *
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Full Name *
                   </label>
                   <input
                     type="text"
-                    name="subject"
-                    value={formData.subject}
+                    name="name"
+                    value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
-                    placeholder="How can we help you?"
+                    required
+                    className="w-full px-3 py-2.5 text-sm border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-blue-500"
+                    placeholder="Name"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Message *
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Email Address *
                   </label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
                     onChange={handleChange}
-                    rows="6"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition resize-none"
-                    placeholder="Tell us more about your inquiry..."
-                  ></textarea>
-                </div>
-
-                <button
-                  onClick={handleSubmit}
-                  className="w-full bg-gray-900 text-white py-4 rounded-xl hover:bg-gray-800 transition font-semibold flex items-center justify-center space-x-2"
-                >
-                  <Send className="w-5 h-5" />
-                  <span>Send Message</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Map & Office Hours */}
-            <div className="space-y-8">
-              {/* Map Placeholder */}
-              <div className="bg-white rounded-3xl overflow-hidden shadow-xl">
-                <div className="h-96 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                  <div className="text-center">
-                    <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-600">Interactive Map</p>
-                    <p className="text-sm text-gray-500">London Office Location</p>
-                  </div>
+                    required
+                    className="w-full px-3 py-2.5 text-sm border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-blue-500"
+                    placeholder="userId@gmail.com"
+                  />
                 </div>
               </div>
 
-              {/* Office Hours */}
-              <div className="bg-white rounded-3xl p-8 shadow-xl">
-                <div className="flex items-center space-x-3 mb-6">
-                  <Clock className="w-8 h-8 text-blue-600" />
-                  <h3 className="text-2xl font-bold text-gray-900">Office Hours</h3>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2.5 text-sm border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-blue-500"
+                    placeholder="+44 1234 567890"
+                  />
                 </div>
-                <div className="space-y-3">
-                  {[
-                    { day: 'Monday - Friday', hours: '9:00 AM - 6:00 PM' },
-                    { day: 'Saturday', hours: '10:00 AM - 4:00 PM' },
-                    { day: 'Sunday', hours: 'Closed' }
-                  ].map((schedule, idx) => (
-                    <div key={idx} className="flex justify-between items-center py-3 border-b border-gray-200 last:border-0">
-                      <span className="font-semibold text-gray-900">{schedule.day}</span>
-                      <span className="text-gray-600">{schedule.hours}</span>
-                    </div>
-                  ))}
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Inquiry Type *
+                  </label>
+                  <select
+                    name="inquiryType"
+                    value={formData.inquiryType}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-3 py-2.5 text-sm border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-blue-500"
+                  >
+                    {inquiryTypes.map((type) => (
+                      <option key={type.value} value={type.value}>
+                        {type.label}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
-              {/* Social Media */}
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl p-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Follow Us</h3>
-                <p className="text-gray-700 mb-6">Stay connected on social media for updates and stories</p>
-                <div className="flex space-x-4">
-                  {[
-                    { icon: <Facebook />, label: 'Facebook' },
-                    { icon: <Twitter />, label: 'Twitter' },
-                    { icon: <Instagram />, label: 'Instagram' },
-                    { icon: <Linkedin />, label: 'LinkedIn' }
-                  ].map((social, idx) => (
-                    <a
-                      key={idx}
-                      href="#"
-                      className="bg-white p-4 rounded-xl hover:bg-gray-900 hover:text-white transition group"
-                      aria-label={social.label}
-                    >
-                      <div className="w-6 h-6 text-gray-900 group-hover:text-white transition">
-                        {social.icon}
-                      </div>
-                    </a>
-                  ))}
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  Subject *
+                </label>
+                <input
+                  type="text"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-3 py-2.5 text-sm border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-blue-500"
+                  placeholder="How can we help you?"
+                />
               </div>
-            </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  Message *
+                </label>
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                  rows="3"
+                  className="w-full px-3 py-2.5 text-sm border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none transition-all duration-200 hover:border-blue-500"
+                  placeholder="Tell us more about your inquiry..."
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-blue-600 text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
+              >
+                {loading ? (
+                  <>
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4 mr-2" />
+                    Send Message
+                  </>
+                )}
+              </button>
+            </form>
           </div>
         </div>
-      </section>
 
-      {/* Global Offices */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Global Offices</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              We have offices around the world to better serve communities and partners
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {offices.map((office, index) => (
-              <div key={index} className="bg-gray-50 rounded-2xl p-8 hover:shadow-xl transition">
-                <div className="bg-blue-100 rounded-xl p-3 inline-block mb-4">
-                  <MapPin className="w-6 h-6 text-blue-600" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">{office.city}</h3>
-                <div className="space-y-3">
-                  <p className="text-gray-700">{office.address}</p>
-                  <p className="text-gray-700 font-semibold">{office.phone}</p>
-                  <p className="text-blue-600">{office.email}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* Full Width Map - Satellite View & Zoomed Out with Hover Effect */}
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d38654.5!2d-1.75!3d52.85!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTLCsDUxJzAwLjAiTiAxwrA0NScwMC4wIlc!5e1!3m2!1sen!2suk!4v1234567890"
+            width="100%"
+            height="300"
+            style={{ border: 0 }}
+            allowFullScreen=""
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="TheoTrust Location"
+          ></iframe>
         </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center space-x-2 bg-blue-100 rounded-full px-4 py-2 mb-4">
-              <HelpCircle className="w-4 h-4 text-blue-600" />
-              <span className="text-sm font-semibold text-blue-600">HELP CENTER</span>
-            </div>
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
-            <p className="text-xl text-gray-600">
-              Quick answers to common questions about TheoTrust
-            </p>
-          </div>
-
-          <div className="space-y-6">
-            {faqs.map((faq, index) => (
-              <div key={index} className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition">
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{faq.question}</h3>
-                <p className="text-gray-700">{faq.answer}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <p className="text-gray-600 mb-4">Can't find what you're looking for?</p>
-            <button className="bg-gray-900 text-white px-8 py-3 rounded-full hover:bg-gray-800 transition font-semibold">
-              View All FAQs
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-20 bg-gradient-to-br from-gray-800 to-gray-900 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-6">Ready to Make a Difference?</h2>
-          <p className="text-xl text-gray-300 mb-8">
-            Join us in transforming children's lives through education
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <button className="bg-white text-gray-900 px-8 py-4 rounded-full hover:bg-gray-100 transition font-semibold">
-              Donate Now
-            </button>
-            <button className="border-2 border-white text-white px-8 py-4 rounded-full hover:bg-white hover:text-gray-900 transition font-semibold">
-              Volunteer With Us
-            </button>
-          </div>
-        </div>
-      </section>
+      </div>
     </div>
   );
 };

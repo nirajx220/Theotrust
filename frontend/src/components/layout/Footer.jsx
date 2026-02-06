@@ -1,96 +1,174 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Twitter, Mail, Phone, MapPin } from 'lucide-react';
+import { Heart, MapPin, Phone, Mail, Globe } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
+  const quickLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Programs', path: '/programs' },
+    { name: 'Events', path: '/events' },
+    { name: 'Contact', path: '/contact' },
+  ];
+
+  const supportLinks = [
+    { name: 'Donate Now', path: '/donate' },
+    { name: 'Volunteer', path: '/contact' },
+    { name: 'Partner With Us', path: '/contact' },
+    { name: 'Corporate Giving', path: '/contact' },
+  ];
+
+  const legalLinks = [
+    { name: 'Privacy Policy', path: '/privacy' },
+    { name: 'Terms of Service', path: '/terms' },
+    { name: 'Cookie Policy', path: '/cookies' },
+    { name: 'Transparency', path: '/transparency' },
+  ];
+
   return (
-    <footer className="bg-gray-900 text-white py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-4 gap-12 mb-12">
-          {/* Company Info */}
+    <footer className="bg-gray-900 text-gray-300">
+      {/* Main Footer Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+          {/* About Section */}
           <div>
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="bg-white rounded-full p-2 w-10 h-10 flex items-center justify-center">
-                <img 
-                  src="/theo-trust-logo.png" 
-                  alt="TheoTrust Logo" 
-                  className="w-6 h-6 object-contain"
-                />
+            <div className="flex items-center space-x-2 mb-4">
+              <div className="p-2 bg-blue-600 rounded-lg">
+                <Heart className="w-6 h-6 text-white" />
               </div>
-              <div>
-                <h3 className="font-bold text-lg">TheoTrust</h3>
-                <p className="text-xs text-gray-400">Empowering Children Globally</p>
-              </div>
+              <span className="text-2xl font-bold text-white">TheoTrust</span>
             </div>
-            <p className="text-gray-400 mb-6">
-              Transforming lives through education and creating opportunities for children worldwide.
+            <p className="text-gray-400 mb-4">
+              Empowering children globally through education, healthcare, and sustainable development programs.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="bg-gray-800 p-2 rounded-lg hover:bg-gray-700 transition">
-                <Facebook className="w-5 h-5" />
+              <a
+                href="https://facebook.com/theotrust"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors"
+                aria-label="Facebook"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                </svg>
               </a>
-              <a href="#" className="bg-gray-800 p-2 rounded-lg hover:bg-gray-700 transition">
-                <Twitter className="w-5 h-5" />
+              <a
+                href="https://twitter.com/theotrust"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-400 transition-colors"
+                aria-label="Twitter"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
+                </svg>
+              </a>
+              <a
+                href="https://linkedin.com/company/theotrust"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors"
+                aria-label="LinkedIn"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                </svg>
               </a>
             </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-bold text-lg mb-4">Quick Links</h4>
-            <ul className="space-y-3">
-              <li><Link to="/about" className="text-gray-400 hover:text-white transition">About TheoTrust</Link></li>
-              <li><Link to="/programs" className="text-gray-400 hover:text-white transition">Our Programs</Link></li>
-              <li><Link to="/events" className="text-gray-400 hover:text-white transition">Fundraising Events</Link></li>
-              <li><Link to="/accounts" className="text-gray-400 hover:text-white transition">Accounts</Link></li>
-              <li><Link to="/management" className="text-gray-400 hover:text-white transition">Management</Link></li>
+            <h3 className="text-white font-semibold text-lg mb-4">Quick Links</h3>
+            <ul className="space-y-2">
+              {quickLinks.map((link) => (
+                <li key={link.path}>
+                  <Link
+                    to={link.path}
+                    className="hover:text-blue-400 transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Programs */}
+          {/* Support Us */}
           <div>
-            <h4 className="font-bold text-lg mb-4">Programs</h4>
-            <ul className="space-y-3">
-              <li><Link to="/programs/ukraine" className="text-gray-400 hover:text-white transition">Ukraine Assistance</Link></li>
-              <li><Link to="/programs/uk" className="text-gray-400 hover:text-white transition">UK Youngsters</Link></li>
-              <li><Link to="/programs/overseas" className="text-gray-400 hover:text-white transition">Overseas Youngsters</Link></li>
-              <li><Link to="/donate" className="text-gray-400 hover:text-white transition">Donate</Link></li>
+            <h3 className="text-white font-semibold text-lg mb-4">Support Us</h3>
+            <ul className="space-y-2">
+              {supportLinks.map((link) => (
+                <li key={link.path}>
+                  <Link
+                    to={link.path}
+                    className="hover:text-blue-400 transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Contact Info */}
           <div>
-            <h4 className="font-bold text-lg mb-4">Contact Info</h4>
-            <ul className="space-y-4">
+            <h3 className="text-white font-semibold text-lg mb-4">Contact Us</h3>
+            <ul className="space-y-3">
               <li className="flex items-start space-x-3">
-                <Mail className="w-5 h-5 text-gray-400 mt-1" />
-                <div>
-                  <p className="text-sm text-gray-400">Email</p>
-                  <a href="mailto:info@theotrust.org" className="text-white hover:text-gray-300">info@theotrust.org</a>
-                </div>
+                <MapPin className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                <span className="text-sm">
+                  Paradise Farm, Burton Rd., Needwood,<br />
+                  Burton on Trent, Staffs. DE13 9PB
+                </span>
               </li>
-              <li className="flex items-start space-x-3">
-                <Phone className="w-5 h-5 text-gray-400 mt-1" />
-                <div>
-                  <p className="text-sm text-gray-400">Phone</p>
-                  <a href="tel:+442071234567" className="text-white hover:text-gray-300">+44 20 7123 4567</a>
-                </div>
+              <li className="flex items-center space-x-3">
+                <Phone className="w-5 h-5 text-blue-400 flex-shrink-0" />
+                <a href="tel:+447976427791" className="text-sm hover:text-blue-400 transition-colors">
+                  +44 7976 427791
+                </a>
               </li>
-              <li className="flex items-start space-x-3">
-                <MapPin className="w-5 h-5 text-gray-400 mt-1" />
-                <div>
-                  <p className="text-sm text-gray-400">Address</p>
-                  <p className="text-white">London, United Kingdom</p>
-                </div>
+              <li className="flex items-center space-x-3">
+                <Mail className="w-5 h-5 text-blue-400 flex-shrink-0" />
+                <a href="mailto:theotrust1998@gmail.com" className="text-sm hover:text-blue-400 transition-colors">
+                  theotrust1998@gmail.com
+                </a>
+              </li>
+              <li className="flex items-center space-x-3">
+                <Globe className="w-5 h-5 text-blue-400 flex-shrink-0" />
+                <a href="https://theotrust.org" target="_blank" rel="noopener noreferrer" className="text-sm hover:text-blue-400 transition-colors">
+                  www.theotrust.org
+                </a>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
-          <p>© {currentYear} TheoTrust. All rights reserved. Registered Charity No. 1234567</p>
+        {/* Divider */}
+        <div className="border-t border-gray-800 my-8"></div>
+
+        {/* Bottom Section */}
+        <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+          <div className="text-sm text-gray-400">
+            © {currentYear} TheoTrust. All rights reserved. Registered Charity No. 1234567
+          </div>
+          <div className="flex flex-wrap justify-center gap-4 text-sm">
+            {legalLinks.map((link, index) => (
+              <React.Fragment key={link.path}>
+                <Link
+                  to={link.path}
+                  className="text-gray-400 hover:text-blue-400 transition-colors"
+                >
+                  {link.name}
+                </Link>
+                {index < legalLinks.length - 1 && (
+                  <span className="text-gray-600">|</span>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
         </div>
       </div>
     </footer>

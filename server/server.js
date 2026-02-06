@@ -24,12 +24,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/donations', require('./routes/donation.routes'));
-app.use('/api/programs', require('./routes/program.routes'));
-app.use('/api/contact', require('./routes/contact.routes'));
-app.use('/api/users', require('./routes/user.routes'));
-app.use('/api/stats', require('./routes/stats.routes'));
-app.use('/api/webhooks', require('./routes/webhook.routes'));
+const donationRoutes = require('./routes/donation.routes');
+const programRoutes = require('./routes/program.routes');
+const contactRoutes = require('./routes/contact.routes');
+const statsRoutes = require('./routes/stats.routes');
+const userRoutes = require('./routes/user.routes');
+const webhookRoutes = require('./routes/webhook.routes');
+const authRoutes = require('./routes/auth.routes'); // Add this line
+
+app.use('/api/donations', donationRoutes);
+app.use('/api/programs', programRoutes);
+app.use('/api/contact', contactRoutes);
+app.use('/api/stats', statsRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/webhooks', webhookRoutes);
+app.use('/api/auth', authRoutes); // Add this line
 
 // Health check
 app.get('/api/health', (req, res) => {
