@@ -202,10 +202,5 @@ module.exports = {
   calculateGiftAid,
   retryWithBackoff,
   deepClone,
-  generateCSVence,
-  generateContactReference,
-  formatCurrency,
-  sanitizeInput,
-  isValidEmail,
-  getPaginationMetadata,
+  generateCSV,
 };

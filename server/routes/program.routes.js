@@ -7,15 +7,15 @@ const {
   updateProgram,
   deleteProgram,
 } = require('../controllers/programController');
-const { protect } = require('../middleware/auth');
+const { protect, authorize } = require('../middleware/auth');
 
 // Public routes
 router.get('/', getAllPrograms);
 router.get('/:id', getProgram);
 
 // Protected routes (admin)
-router.post('/', protect, createProgram);
-router.put('/:id', protect, updateProgram);
-router.delete('/:id', protect, deleteProgram);
+router.post('/', protect, authorize('admin'), createProgram);
+router.put('/:id', protect, authorize('admin'), updateProgram);
+router.delete('/:id', protect, authorize('admin'), deleteProgram);
 
 module.exports = router;
