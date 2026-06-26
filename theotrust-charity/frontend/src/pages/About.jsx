@@ -1,244 +1,184 @@
 import React from 'react';
-import { Heart, Target, Eye, Users, Award, TrendingUp, Globe, BookOpen } from 'lucide-react';
+import { BookOpen, Heart, Globe, ShieldCheck, Users, Home, School2, BadgeCheck } from 'lucide-react';
 
 const AboutPage = () => {
-  const milestones = [
-    { year: '2004', title: 'Foundation', description: 'TheoTrust was established with a mission to transform lives through education' },
-    { year: '2008', title: 'First School Built', description: 'Opened our first educational facility in a rural community' },
-    { year: '2012', title: 'International Expansion', description: 'Extended programs to 10+ countries worldwide' },
-    { year: '2015', title: '10,000 Children Milestone', description: 'Reached our goal of helping 10,000 children' },
-    { year: '2020', title: 'Digital Learning Initiative', description: 'Launched online education programs during global pandemic' },
-    { year: '2024', title: 'Current Impact', description: '15,000+ children helped across 25+ countries' }
+  const highlights = [
+    {
+      title: 'Volunteer-led charity',
+      description:
+        'Theo Trust is run by professional volunteers dedicated to helping troubled youngsters and families over the long term.',
+      icon: <Users className="h-5 w-5" />,
+    },
+    {
+      title: 'Education first',
+      description:
+        'The charity supports children through residential courses, state boarding schools and practical learning opportunities.',
+      icon: <BookOpen className="h-5 w-5" />,
+    },
+    {
+      title: 'UK and overseas',
+      description:
+        'Projects span the UK, Ukraine, India and the Philippines, shaped around urgent educational and welfare needs.',
+      icon: <Globe className="h-5 w-5" />,
+    },
   ];
 
-  const values = [
+  const focusAreas = [
     {
-      icon: <Heart className="w-8 h-8" />,
-      title: 'Compassion',
-      description: 'We lead with empathy and genuine care for every child we serve'
+      title: 'Ukraine response',
+      icon: <Home className="h-6 w-6" />,
+      points: [
+        'Supporting families through the UK Homes for Ukraine scheme.',
+        'Providing portable generators for front-line hospitals.',
+        'Helping a children’s hospital with a heating unit under construction away from the battle ground.',
+        'Working with kindergartens in Mykolaiv and Cherkasy so children can switch from classrooms to blast shelter.',
+      ],
     },
     {
-      icon: <Target className="w-8 h-8" />,
-      title: 'Excellence',
-      description: 'We maintain the highest standards in all our educational programs'
+      title: 'UK support',
+      icon: <School2 className="h-6 w-6" />,
+      points: [
+        'Working with charities that place vulnerable children in state boarding schools.',
+        'Providing ancillary support and recreation for families.',
+        'Serving communities in some of the most deprived areas in the country.',
+      ],
     },
     {
-      icon: <Users className="w-8 h-8" />,
-      title: 'Collaboration',
-      description: 'We work together with communities, partners, and donors'
+      title: 'India and beyond',
+      icon: <Globe className="h-6 w-6" />,
+      points: [
+        'Contributing to Project Mala, founded by Robin Garland.',
+        'Supporting six schools educating around 1400 impoverished rural children.',
+        'Helping selected students spend one year studying in the UK.',
+        'Assisting two youngsters in the Philippines with education support and family hardship.',
+      ],
     },
-    {
-      icon: <TrendingUp className="w-8 h-8" />,
-      title: 'Impact',
-      description: 'We focus on creating measurable, lasting change in children\'s lives'
-    }
   ];
 
-  const team = [
+  const principles = [
     {
-      name: 'Dr. Sarah Johnson',
-      role: 'Founder & CEO',
-      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop',
-      bio: '20+ years in international development and education'
+      title: 'Compassionate continuity',
+      text: 'Children already helped are not abandoned when circumstances change.',
+      icon: <Heart className="h-5 w-5" />,
     },
     {
-      name: 'Michael Chen',
-      role: 'Director of Programs',
-      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop',
-      bio: 'Expert in educational infrastructure and community development'
+      title: 'Responsible stewardship',
+      text: 'Support is directed toward meaningful education, shelter and practical help.',
+      icon: <ShieldCheck className="h-5 w-5" />,
     },
     {
-      name: 'Emma Williams',
-      role: 'Head of Fundraising',
-      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop',
-      bio: 'Strategic fundraising leader with global NGO experience'
+      title: 'Real outcomes',
+      text: 'The charity focuses on outcomes that improve confidence, stability and long-term opportunity.',
+      icon: <BadgeCheck className="h-5 w-5" />,
     },
-    {
-      name: 'James Patterson',
-      role: 'Operations Director',
-      image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop',
-      bio: 'Logistics and operations specialist for international programs'
-    }
-  ];
-
-  const achievements = [
-    { number: '500+', label: 'Schools Built', icon: <BookOpen className="w-6 h-6" /> },
-    { number: '25+', label: 'Countries', icon: <Globe className="w-6 h-6" /> },
-    { number: '15,000+', label: 'Children Helped', icon: <Users className="w-6 h-6" /> },
-    { number: '98%', label: 'Satisfaction Rate', icon: <Award className="w-6 h-6" /> }
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-gray-800 to-gray-900 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-5xl font-bold mb-6">About TheoTrust</h1>
-            <p className="text-xl text-gray-300">
-              Since 2004, we've been dedicated to breaking the cycle of poverty through education, 
-              empowering children across the globe to build brighter futures.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Mission & Vision */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl p-10">
-              <div className="bg-blue-600 rounded-2xl p-4 inline-block mb-6">
-                <Target className="w-8 h-8 text-white" />
-              </div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Mission</h2>
-              <p className="text-lg text-gray-700">
-                To provide quality educational opportunities to deprived children worldwide, 
-                breaking the cycle of poverty through learning, empowerment, and sustainable development. 
-                We believe every child deserves access to education regardless of their circumstances.
+    <div className="min-h-screen bg-slate-50 text-slate-800">
+      <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-teal-900 text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.18),transparent_36%),radial-gradient(circle_at_bottom_left,rgba(56,189,248,0.16),transparent_34%)]" />
+        <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+          <div className="grid gap-10 lg:grid-cols-5 lg:items-end">
+            <div className="lg:col-span-3">
+              <p className="mb-3 text-xs font-bold tracking-[0.28em] text-emerald-300 uppercase">
+                Registered Charity No. 1069814
+              </p>
+              <h1
+                className="max-w-3xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl"
+                style={{ fontFamily: 'Merriweather, Georgia, serif' }}
+              >
+                About TheoTrust
+              </h1>
+              <p className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-200 sm:text-xl">
+                Theo Trust is special because it is run by professional volunteers dedicated to helping troubled
+                youngsters. The charity began by supporting children from orphanages in Russia and has since continued
+                to stand with young people and families across the UK and overseas.
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-3xl p-10">
-              <div className="bg-purple-600 rounded-2xl p-4 inline-block mb-6">
-                <Eye className="w-8 h-8 text-white" />
+            <div className="lg:col-span-2">
+              <div className="rounded-3xl border border-white/10 bg-white/10 p-6 backdrop-blur-md">
+                <h2 className="mb-4 text-2xl font-bold" style={{ fontFamily: 'Merriweather, Georgia, serif' }}>
+                  A charity built on continuity
+                </h2>
+                <p className="text-sm leading-relaxed text-slate-100">
+                  When circumstances change, Theo Trust keeps supporting the children and communities it has already
+                  committed to helping. That long-term approach is at the heart of the charity’s work.
+                </p>
               </div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Vision</h2>
-              <p className="text-lg text-gray-700">
-                A world where every child has access to quality education and the opportunity to reach 
-                their full potential. We envision thriving communities where education serves as the 
-                foundation for sustainable development and social transformation.
-              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Core Values */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Core Values</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              These principles guide everything we do and shape how we serve communities worldwide
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => (
-              <div key={index} className="bg-white rounded-2xl p-8 text-center hover:shadow-xl transition">
-                <div className="bg-gray-900 rounded-full p-4 inline-block mb-6">
-                  <div className="text-white">{value.icon}</div>
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{value.title}</h3>
-                <p className="text-gray-600">{value.description}</p>
-              </div>
-            ))}
-          </div>
+      <section className="mx-auto -mt-8 max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-5 md:grid-cols-3">
+          {highlights.map((item) => (
+            <article key={item.title} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div className="mb-4 inline-flex rounded-2xl bg-teal-100 p-3 text-teal-700">{item.icon}</div>
+              <h3 className="mb-2 text-xl font-bold text-slate-900">{item.title}</h3>
+              <p className="text-sm leading-relaxed text-slate-600">{item.description}</p>
+            </article>
+          ))}
         </div>
       </section>
 
-      {/* Journey Timeline */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Journey</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Two decades of transforming lives through education
-            </p>
-          </div>
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mb-10 max-w-3xl">
+          <p className="mb-2 text-xs font-bold tracking-[0.25em] text-teal-700 uppercase">Our work</p>
+          <h2
+            className="text-3xl font-bold text-slate-900 sm:text-4xl"
+            style={{ fontFamily: 'Merriweather, Georgia, serif' }}
+          >
+            Where TheoTrust focuses its support
+          </h2>
+        </div>
 
-          <div className="relative">
-            {/* Timeline Line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gray-200 hidden md:block"></div>
-
-            {milestones.map((milestone, index) => (
-              <div key={index} className={`relative mb-12 md:grid md:grid-cols-2 md:gap-8 ${index % 2 === 0 ? '' : 'md:flex-row-reverse'}`}>
-                <div className={`${index % 2 === 0 ? 'md:text-right' : 'md:col-start-2'}`}>
-                  <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition">
-                    <div className="inline-block bg-gray-900 text-white px-4 py-2 rounded-full text-sm font-bold mb-4">
-                      {milestone.year}
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-3">{milestone.title}</h3>
-                    <p className="text-gray-600">{milestone.description}</p>
-                  </div>
-                </div>
-                
-                {/* Timeline Dot */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-gray-900 rounded-full border-4 border-white shadow hidden md:block"></div>
-              </div>
-            ))}
-          </div>
+        <div className="grid gap-6 lg:grid-cols-3">
+          {focusAreas.map((area) => (
+            <article key={area.title} className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
+              <div className="mb-5 inline-flex rounded-2xl bg-slate-100 p-3 text-slate-700">{area.icon}</div>
+              <h3 className="mb-4 text-2xl font-bold text-slate-900">{area.title}</h3>
+              <ul className="space-y-3 text-sm leading-relaxed text-slate-600">
+                {area.points.map((point) => (
+                  <li key={point} className="flex gap-3">
+                    <span className="mt-2 h-2 w-2 flex-none rounded-full bg-teal-600" />
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
         </div>
       </section>
 
-      {/* Achievements */}
-      <section className="py-20 bg-gradient-to-br from-gray-800 to-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Our Impact in Numbers</h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Measurable results that demonstrate our commitment to changing lives
-            </p>
-          </div>
+      <section className="bg-white py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
+            <div>
+              <p className="mb-2 text-xs font-bold tracking-[0.25em] text-teal-700 uppercase">How we work</p>
+              <h2
+                className="mb-5 text-3xl font-bold text-slate-900 sm:text-4xl"
+                style={{ fontFamily: 'Merriweather, Georgia, serif' }}
+              >
+                The ethos behind TheoTrust
+              </h2>
+              <p className="text-lg leading-relaxed text-slate-700">
+                The charity works with children and families in ways that are practical, steady and human. That includes
+                helping families integrate after displacement, supporting education in deprived areas, and making sure
+                opportunities continue for those who still need help.
+              </p>
+            </div>
 
-          <div className="grid md:grid-cols-4 gap-8">
-            {achievements.map((achievement, index) => (
-              <div key={index} className="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-8 text-center hover:bg-opacity-20 transition">
-                <div className="bg-white bg-opacity-20 rounded-full p-4 inline-block mb-4">
-                  <div className="text-white">{achievement.icon}</div>
+            <div className="grid gap-4 sm:grid-cols-3">
+              {principles.map((item) => (
+                <div key={item.title} className="rounded-2xl bg-slate-50 p-5 shadow-sm ring-1 ring-slate-200">
+                  <div className="mb-3 inline-flex rounded-xl bg-emerald-100 p-3 text-emerald-700">{item.icon}</div>
+                  <h3 className="mb-2 text-base font-bold text-slate-900">{item.title}</h3>
+                  <p className="text-sm leading-relaxed text-slate-600">{item.text}</p>
                 </div>
-                <h3 className="text-4xl font-bold mb-2">{achievement.number}</h3>
-                <p className="text-gray-300">{achievement.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Team Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Meet Our Team</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Dedicated professionals committed to making a difference in children's lives
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {team.map((member, index) => (
-              <div key={index} className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition">
-                <img 
-                  src={member.image} 
-                  alt={member.name}
-                  className="w-full h-64 object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{member.name}</h3>
-                  <p className="text-blue-600 font-semibold mb-3">{member.role}</p>
-                  <p className="text-gray-600 text-sm">{member.bio}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="py-20 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-gray-900 mb-6">Join Us in Our Mission</h2>
-          <p className="text-xl text-gray-600 mb-8">
-            Together, we can transform more lives and create lasting change through education
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <button className="bg-gray-900 text-white px-8 py-4 rounded-full hover:bg-gray-800 transition font-semibold">
-              Make a Donation
-            </button>
-            <button className="border-2 border-gray-900 text-gray-900 px-8 py-4 rounded-full hover:bg-gray-900 hover:text-white transition font-semibold">
-              Become a Volunteer
-            </button>
+              ))}
+            </div>
           </div>
         </div>
       </section>
